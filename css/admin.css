@@ -178,13 +178,13 @@ main {
   background-color: #e67e22;
 }
 
-/* Recherche et filtre */
+/* Recherche et filtre - MODIFICATIONS PRINCIPALES */
 .search-filter-container {
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .active-filter {
@@ -196,7 +196,7 @@ main {
 .filter-container {
   position: relative;
   min-width: 180px;
-  flex: 1;
+  flex: 1 1 180px;
   margin: 0;
 }
 
@@ -639,7 +639,7 @@ footer {
   border-top: 1px solid var(--color-gray);
 }
 
-/* Responsive */
+/* Responsive - MODIFICATIONS POUR LES FILTRES */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
@@ -663,11 +663,13 @@ footer {
   }
   
   .search-filter-container {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 0.5rem;
   }
   
   .filter-container {
-    min-width: 100%;
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 0;
   }
   
   th, td {
@@ -730,5 +732,15 @@ footer {
   
   #dataTable td:nth-child(4) {
     max-width: 100px;
+  }
+
+  /* Adaptation spécifique pour les filtres sur très petits écrans */
+  .search-filter-container {
+    flex-direction: column;
+  }
+
+  .filter-container {
+    flex: 1 1 100%;
+    width: 100%;
   }
 }
