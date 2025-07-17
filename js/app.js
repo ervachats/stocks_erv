@@ -66,7 +66,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 
 // === Chargement Excel ===
 function loadExcelData() {
-  fetch("stocker_temp.xlsx")
+  fetch("modele/stocker_temp.xlsx")
     .then((r) => r.arrayBuffer())
     .then((data) => {
       const workbook = XLSX.read(data, { type: "array" });
