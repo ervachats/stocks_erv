@@ -1,0 +1,259 @@
+:root {
+  --color-primary: #003d66;
+  --color-secondary: #0c81b4;
+  --color-white: #fff;
+  --color-gray: #f0f0f0;
+  --color-text: #333;
+  --color-light-text: #777;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --account-colors: #3498db, #2ecc71, #9b59b6, #e74c3c, #f39c12, 
+                   #1abc9c, #d35400, #34495e, #16a085, #8e44ad, 
+                   #c0392b, #7f8c8d, #27ae60;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  background: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .login-container {
+    flex-direction: row;
+    min-height: 700px;
+  }
+}
+
+.login-header {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: var(--color-white);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .login-header {
+    flex: 1;
+  }
+}
+
+.logo {
+  font-size: 8rem;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.login-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.login-header p {
+  font-size: 1.1rem;
+  max-width: 400px;
+  opacity: 0.9;
+}
+
+.login-form {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: 600px;
+  position: relative;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 992px) {
+  .login-form {
+    flex: 1;
+    padding: 60px;
+    max-height: none;
+    padding-bottom: 80px;
+  }
+}
+
+.login-form h2 {
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.login-form p {
+  color: var(--color-light-text);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.account-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .account-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.account-btn {
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  color: var(--color-white);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+
+.account-btn:nth-child(1) { background-color: #3498db; }
+.account-btn:nth-child(2) { background-color: #2ecc71; }
+.account-btn:nth-child(3) { background-color: #9b59b6; }
+.account-btn:nth-child(4) { background-color: #e74c3c; }
+.account-btn:nth-child(5) { background-color: #f39c12; }
+.account-btn:nth-child(6) { background-color: #1abc9c; }
+.account-btn:nth-child(7) { background-color: #d35400; }
+.account-btn:nth-child(8) { background-color: #34495e; }
+.account-btn:nth-child(9) { background-color: #16a085; }
+.account-btn:nth-child(10) { background-color: #8e44ad; }
+.account-btn:nth-child(11) { background-color: #c0392b; }
+.account-btn:nth-child(12) { background-color: #7f8c8d; }
+.account-btn:nth-child(13) { background-color: #27ae60; }
+
+.account-btn span {
+  font-size: 1.5rem;
+}
+
+.account-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: var(--color-light-text);
+  font-size: 0.9rem;
+  padding: 10px;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 10px;
+    display: block;
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .login-container {
+    flex-direction: column;
+    min-height: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .login-header {
+    padding: 15px 10px;
+    flex: none;
+    min-height: auto;
+  }
+
+  .logo {
+    font-size: 2.5rem !important;
+    margin-bottom: 5px !important;
+    animation: none;
+  }
+
+  .login-header h1 {
+    font-size: 1.3rem !important;
+    margin-bottom: 5px !important;
+  }
+
+  .login-header p {
+    font-size: 0.8rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  .login-form {
+    padding: 20px 10px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: none !important;
+    padding-bottom: 60px !important;
+  }
+
+  .account-options {
+    margin-top: 10px;
+    gap: 8px;
+  }
+
+  .account-btn {
+    padding: 8px 10px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .account-btn span {
+    font-size: 1rem !important;
+  }
+
+  .login-form h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 5px !important;
+  }
+
+  .login-form p {
+    font-size: 0.9rem !important;
+    margin-bottom: 15px !important;
+  }
+
+  .login-footer {
+    position: static;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+  }
+}

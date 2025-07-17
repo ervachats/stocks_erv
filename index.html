@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire Stocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formulaire pour la gestion des stocks">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/pouchdb@7.3.1/dist/pouchdb.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <header>
+  <div class="header-content">
+    <h1>📦 Enregistrement de Stock</h1>
+    <div class="user-info">
+      <span id="currentUserLabel" class="account-info">Non connecté</span>
+      <button class="logout-btn" id="logoutBtn">
+        Déconnexion
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+  <main>
+    <div id="qr-reader"></div>
+
+    <div class="photo-section">
+      <div class="photo-buttons">
+        <button type="button" id="takePhotoBtn">
+          <span style="font-size: 1.2em;">📸</span> Prendre une photo
+        </button>
+        <button type="button" id="chooseGalleryBtn">
+          <span style="font-size: 1.2em;">🖼️</span> Choisir depuis la galerie
+        </button>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;">
+        <input type="file" id="galleryInput" accept="image/*" multiple style="display:none;">
+      </div>
+      
+      <p class="photo-count">Photos ajoutées : <span id="photoCount">0</span>/3</p>
+      <div id="previewContainer" class="preview-container"></div>
+    </div>
+
+    <form id="stockForm">
+      <!-- Produit -->
+      <div class="field-group">
+          <label for="code_produit">📵 Code Produit (Scan QR)</label>
+          <input type="text" id="code_produit" name="code_produit" list="codeProduitList" required>
+        
+        <div class="full-width">
+          <label for="designation">📝 Désignation</label>
+          <input list="designationList" id="designation" name="designation" autocomplete="off" required>
+          <datalist id="designationList"></datalist>
+          <datalist id="codeProduitList"></datalist>
+        </div>
+      </div>
+
+      <!-- Quantité -->
+      <div class="field-group">
+        <div>
+          <label for="quantité_consommee">📉 Quantité</label>
+          <input type="number" id="quantité_consommee" name="quantité_consommee" min="1" required>
+        </div>
+
+        <div>
+          <label for="unites">🧮 Unité(s)</label>
+          <input type="text" id="unites" name="unites" required>
+        </div>
+      </div>
+
+      <!-- Commande -->
+      <div class="field-group">
+        <div>
+          <label for="a_commander">🛒 À Commander</label>
+          <select id="a_commander" name="a_commander" required>
+            <option value="">-- Sélectionnez --</option>
+            <option value="Oui">Oui</option>
+            <option value="Non" selected>Non</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="magasin">🏪 Magasin</label>
+          <select id="magasin" name="magasin" required>
+            <option value="">-- Sélectionnez --</option>
+            <option value="ER-MP">ER-MP</option>
+            <option value="ER-MG">ER-MG</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dates et remarques -->
+      <div class="field-group">
+        <div>
+          <label for="date_sortie">📅 Date de sortie</label>
+          <input type="datetime-local" id="date_sortie" name="date_sortie" required>
+        </div>
+        
+        <div class="full-width">
+          <label for="remarques">📌 Remarques</label>
+          <textarea id="remarques" name="remarques" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Axes -->
+      <div class="field-group">
+        <div class="full-width">
+          <label for="axe1">🏷️ Axe 1 (Compte)</label>
+          <input type="text" id="axe1" name="axe1" readonly>
+        </div>
+
+        <div>
+          <label for="axe2">📊 Axe 2</label>
+          <input type="text" id="axe2" name="axe2" value="SUP=SEMPQRLER" required>
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="button-group">
+        <button type="submit" id="submitBtn">💾 Enregistrer</button>
+        <button type="button" id="resetBtn">🔄 Réinitialiser</button>
+      </div>
+    </form>
+
+    <a href="admin.html" class="admin-link">📈 Voir les résultats 📉</a>
+  </main>
+
+  <footer>
+    <p>&copy; 📦 2025 - Gestion de Stocks</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Administration Stocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/pouchdb@7.3.1/dist/pouchdb.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1> 📦 Administration des Sorties des stocks</h1>
+       <div class="user-info">
+      <span id="currentUserLabel"></span>
+        <button class="logout-btn" id="logoutBtn">
+  Déconnexion
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+    <polyline points="16 17 21 12 16 7"></polyline>
+    <line x1="21" y1="12" x2="9" y2="12"></line>
+  </svg>
+</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="admin-controls">
+      <button id="exportBtn">Exporter en CSV</button>
+      <button id="syncBtn">Synchroniser avec le serveur</button>
+      <button id="deleteSelectedBtn" class="danger">Supprimer la sélection</button>
+      <button id="deleteAllBtn" class="danger">Tout supprimer</button>
+      <button id="resetFiltersBtn">Réinitialiser les filtres</button>
+    </div>
+
+<!-- Nouvelle section uniformisée -->
+<div class="search-filter-container">
+  <!-- Recherche avec style flottant -->
+  <div class="filter-container">
+    <div class="floating-filter">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="filter-input"
+        placeholder=" "
+      >
+      <label for="searchInput" class="filter-label">Rechercher...</label>
+      <span class="filter-icon">🔍</span>
+    </div>
+  </div>
+  
+  <div class="filter-container">
+  <div class="floating-filter">
+    <input 
+      type="date"
+      id="dateFilter"
+      class="filter-input"
+      placeholder=" "
+      data-placeholder="Toutes les dates"
+    >
+    <label for="dateFilter" class="filter-label">Date</label>
+    <span class="filter-icon">📅</span>
+  </div>
+</div>
+  
+   <!-- Filtre par compte avec style flottant -->
+      <div class="filter-container">
+        <div class="floating-filter">
+          <select id="filterSelect" class="filter-input">
+
+<option value="" selected>Tous les comptes</option>
+            <option value="SCT=E260329">SCE Informations Sportives</option>
+            <option value="SCT=E272329">SCE Support Rédaction</option>
+            <option value="SCT=E370329">Maintenance Machines</option>
+            <option value="SCT=E382329">Service Rotatives</option>
+            <option value="SCT=E390329">Service Expédition</option>
+            <option value="SCT=E500329">Direction Vente</option>
+            <option value="SCT=E730329">LER Charges</option>
+            <option value="SCT=E736329">Service Travaux</option>
+            <option value="SCT=E760329">Achats Magasin</option>
+            <option value="SCT=E762329">Manutention Papier</option>
+            <option value="SCT=E772329">Coursiers</option>
+            <option value="SCT=E860329">Cantine</option>
+            <option value="NEUTRE">Compte Invite</option>
+          </select>
+          <label for="filterSelect" class="filter-label">Compte</label>
+          <span class="filter-icon">▼</span>
+        </div>
+      </div>
+
+  <!-- Filtre "À commander" avec style flottant -->
+  <div class="filter-container">
+    <div class="floating-filter">
+      <select id="commandeFilter" class="filter-input">
+        <option value="" selected>Toutes</option>
+        <option value="oui">Oui</option>
+        <option value="non">Non</option>
+      </select>
+      <label for="commandeFilter" class="filter-label">À commander</label>
+      <span class="filter-icon">▼</span>
+    </div>
+  </div>
+</div>
+
+ <!-- Filtre "Magasin" avec style flottant -->
+  <div class="filter-container">
+    <div class="floating-filter">
+      <select id="magasinFilter" class="filter-input">
+        <option value="" selected>Tous</option>
+        <option value="oui">ER-MG</option>
+        <option value="non">ER-MP</option>
+      </select>
+      <label for="magasinFilter" class="filter-label">Magasin</label>
+      <span class="filter-icon">▼</span>
+    </div>
+  </div>
+</div>
+ 
+ 
+
+    <div class="stats-container">
+      <div class="stat-card">
+        <span class="stat-value" id="totalCount">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="rotativesCount">0</span>
+        <span class="stat-label">Rotatives</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="expeditionCount">0</span>
+        <span class="stat-label">Expédition</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="selectedCount">0</span>
+        <span class="stat-label">Sélectionnés</span>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table id="dataTable">
+      <thead>
+        <tr>
+          <th width="40px"><input type="checkbox" id="selectAll"></th>
+          <th width="120px">Date</th>
+          <th width="120px">Code Produit</th>
+          <th width="250px">Désignation</th> 
+          <th width="80px">Quantité</th>
+          <th width="80px">Unités</th>
+          <th width="100px">À Commander</th>
+          <th width="120px">Magasin</th>
+          <th width="150px">Axe 1</th>
+          <th width="150px">Axe 2</th>
+          <th width="150px">Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+
+    <div class="pagination-container">
+      <div class="pagination-info" id="paginationInfo"></div>
+      <div class="pagination-controls">
+        <button id="firstPageBtn">⏮️ Première</button>
+        <button id="prevPageBtn">◀️ Précédente</button>
+        <div class="page-numbers" id="pageNumbers"></div>
+        <button id="nextPageBtn">Suivante ▶️</button>
+        <button id="lastPageBtn">Dernière ⏭️</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="detailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 📦 2025 - Gestion de Stocks</p>
+  </footer>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
