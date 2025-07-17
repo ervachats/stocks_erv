@@ -113,6 +113,10 @@ function setupEventListeners() {
     currentPage = 1;
     filterData();
   });
+    document.getElementById('magasinFilter').addEventListener('change', function() {
+    currentPage = 1;
+    filterData();
+  });
 
   // Pagination
   document.getElementById('firstPageBtn').addEventListener('click', () => goToPage(1));
@@ -156,6 +160,7 @@ function resetFilters() {
   document.getElementById('filterSelect').value = '';
   document.getElementById('dateFilter').value = getTodayDate();
   document.getElementById('commandeFilter').value = '';
+  document.getElementById('magasinFilter').value = '';
   currentPage = 1;
   filterData();
 }
@@ -180,6 +185,7 @@ function filterData() {
   const filterValue = document.getElementById('filterSelect').value;
   const dateFilter = document.getElementById('dateFilter').value;
   const commandeFilter = document.getElementById('commandeFilter').value;
+  const magasinFilter = document.getElementById('magasinFilter').value;
 
   filteredDocs = allDocs.filter(doc => {
     // Filtre par compte
@@ -206,6 +212,14 @@ function filterData() {
       if (commandeFilter === 'oui' && !aCommander.includes('oui')) return false;
       if (commandeFilter === 'non' && aCommander.includes('oui')) return false;
     }
+
+     // Filtre "Magasin"
+    if (magasinFilter) {
+      const magasin = doc.magasin ? doc.magasin.toLowerCase() : '';
+      if (magasinFilter === 'ER-MG' && !magasin.includes('ER-MG')) return false;
+      if (magasinFilter === 'ER-MP' && magasin.includes('ER-MG')) return false;
+    }
+    
     
     // Filtre par recherche
     if (searchTerm) {
@@ -415,6 +429,7 @@ function getInputField(key, value) {
         <option value="Non" ${value === 'Non' ? 'selected' : ''}>Non</option>
       </select>
     `;
+    
   } else if (key === 'remarques') {
     return `<textarea id="edit_${key}" class="form-control">${value || ''}</textarea>`;
   } else {
@@ -448,6 +463,7 @@ function formatFieldName(key) {
     code_produit: "Code Produit",
     quantité_consommee: "Quantité Consommée",
     a_commander: "À Commander",
+    magasin: "Magasin",
     unites: "Unités",
     date_sortie: "Date de Sortie"
   };
